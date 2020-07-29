@@ -1,39 +1,26 @@
 import os
 import secrets
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, abort
 from flaskblog import app, db, bcrypt
-from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from flaskblog.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 
 
-posts = [
-	{
-		'author' : 'Dev Sharma',
-		'title' : 'Blog Post 1',
-		'content' : 'First Post content',
-		'date_posted' : 'July 20, 2020'
-	},
-	{
-		'author' : 'Jane Doe',
-		'title' : 'Blog Post 2',
-		'content' : 'Second Post content',
-		'date_posted' : 'July 21, 2020'
-	}
-]
-
 @app.route('/')
-@app.route('/home', methods = ['POST', "GET"])
+@app.route('/home', methods = ['POST', 'GET'])
 def home():
+	page = request.args.get('page', 1, type=int)
+	posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
 	return render_template('home.html', posts=posts)
 
-@app.route('/about', methods = ['POST', "GET"])
+@app.route('/about', methods = ['POST', 'GET'])
 def about():
 	return render_template('about.html', title='About')
 
 
-@app.route('/register', methods = ['POST', "GET"])
+@app.route('/register', methods = ['POST', 'GET'])
 def register():
 	if current_user.is_authenticated:
 		return(redirect(url_for('home')))
@@ -47,7 +34,7 @@ def register():
 		return redirect(url_for('login'))
 	return render_template('register.html', title='Register', form=form)
 
-@app.route('/login', methods = ['POST', "GET"])
+@app.route('/login', methods = ['POST', 'GET'])
 def login():
 	if current_user.is_authenticated:
 		return(redirect(url_for('home')))
@@ -64,7 +51,7 @@ def login():
 			flash(f'Login Unsuccessful. Invalid Email/Password.', 'danger')
 	return render_template('login.html', title='Login', form=form)
 
-@app.route('/logout', methods = ['POST', "GET"])
+@app.route('/logout', methods = ['POST', 'GET'])
 def logout():
 	logout_user()
 	return(redirect(url_for('home')))
@@ -103,7 +90,60 @@ def account():
 	return render_template('account.html', title='Account', image_file=image_file, form=form)
 
 
-@app.route('/post/new', methods = ['POST', "GET"])
+@app.route('/post/new', methods=['POST', 'GET'])
 @login_required
 def new_post():
-	return render_template('create post.html', title='New Post')
+	form = PostForm()
+	if form.validate_on_submit():
+		flash(f'New Blog Posted', 'success')
+		post = Post(title=form.title.data, content=form.content.data, author=current_user)
+		db.session.add(post)
+		db.session.commit()
+		return redirect(url_for('home'))
+	return render_template('create post.html', title='New Post', form=form, legend='New Post')
+
+
+@app.route('/post/<int:post_id>')
+def post(post_id):
+	post = Post.query.get_or_404(post_id)
+	return render_template('post.html', title=post.title, post=post)
+
+
+@app.route('/post/<int:post_id>/update', methods=['POST', 'GET'])
+@login_required
+def update_post(post_id):
+	post = Post.query.get_or_404(post_id)
+	if post.author != current_user:
+		abort(403)
+	form = PostForm()
+	if form.validate_on_submit():
+		post.title = form.title.data
+		post.content = form.content.data
+		db.session.commit()
+		flash('Post Updated Successfully', 'success')
+		return redirect(url_for('post', post_id=post.id))
+	elif request.method ==  'GET':
+		form.title.data = post.title
+		form.content.data = post.content
+	return render_template('create post.html', title='Update Post', form=form, legend='Update Post')
+
+
+@app.route('/post/<int:post_id>/delete', methods=['POST'])
+@login_required
+def delete_post(post_id):
+	post = Post.query.get_or_404(post_id)
+	if post.author != current_user:
+		abort(403)
+	db.session.delete(post)
+	db.session.commit()
+	flash(f'Post Deleted Successfully', 'success')
+	return redirect(url_for('home'))
+
+
+
+@app.route('/user/<string:username>', methods = ['POST', 'GET'])
+def user_posts(username):
+	page = request.args.get('page', 1, type=int)
+	user = User.query.filter_by(username=username).first_or_404();
+	posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
+	return render_template('user_post.html', posts=posts, user=user)
