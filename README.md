@@ -8,6 +8,9 @@ A full stack blog site made with Flask. This is the blog site made as a part of 
 - Responsive site design using **Bootstrap**.
 - Login / Signup (User authentication added with password hashing)
 - Update Your Login and Profile info
+- Create, Update, Delete Posts
+- Pagination for Posts display
+- View all posts by a User
 
 ----
 
