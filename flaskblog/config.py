@@ -3,8 +3,8 @@ import os
 
 
 class Config:
-	SECRET_KEY = os.environ.get('SECRET_KEY')
-	SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
+	SECRET_KEY = os.environ.get('SECRET_KEY_FOR_FLASK_BLOG')
+	SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI_FOR_FLASK_BLOG')
 	MAIL_SERVER = 'smtp.gmail.com'
 	MAIL_PORT = '465'
 	MAIL_USE_TLS = False

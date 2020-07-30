@@ -13,6 +13,8 @@ A full stack blog site made with Flask. This is the blog site made as a part of 
 - Pagination for Posts display
 - View all posts by a User
 - Password Reset added (Password reset link to mail)
+- App Blueprints configured
+- create_app for instantiation added
 
 ----
 
@@ -40,6 +42,75 @@ set EMAIL_USER="your password"
 
 ```shell
 python run.py
+```
+
+## Tree Structure
+
+```shell
+.
+│   README.md
+│   requirements.txt
+│   run.py
+│
+└───flaskblog
+    │   config.py
+    │   models.py
+    │   site.db
+    │   __init__.py
+    │
+    ├───main
+    │       forms.py
+    │       routes.py
+    │       __init__.py
+    │
+    │
+    │
+    │
+    │
+    ├───posts
+    │   │   forms.py
+    │   │   routes.py
+    │   │   __init__.py
+    │   │
+    │   └───__pycache__
+    │           forms.cpython-38.pyc
+    │           routes.cpython-38.pyc
+    │           __init__.cpython-38.pyc
+    │
+    ├───static
+    │   │   main.css
+    │   │
+    │   └───profile_pics
+    │           0e4f5224717d8b0e.jpeg
+    │           8c73cc55f38af72e.jpeg
+    │           8fb04984a0e64806.jpeg
+    │           db7be03f6772c284.jpeg
+    │           default.jpeg
+    │
+    ├───templates
+    │       about.html
+    │       account.html
+    │       create post.html
+    │       home.html
+    │       layout.html
+    │       login.html
+    │       post.html
+    │       register.html
+    │       reset_request.html
+    │       reset_token.html
+    │       user_post.html
+    │
+    └───users
+        │   forms.py
+        │   routes.py
+        │   utils.py
+        │   __init__.py
+        │
+        └───__pycache__
+                forms.cpython-38.pyc
+                routes.cpython-38.pyc
+                utils.cpython-38.pyc
+               __init__.cpython-38.pyc
 ```
 
 ## Tech Stack
