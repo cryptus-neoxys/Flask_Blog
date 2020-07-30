@@ -2,10 +2,11 @@ import os
 import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
-from flaskblog import app, db, bcrypt
-from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
+from flaskblog import app, db, bcrypt, mail
+from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, RequestResetForm, ResetPasswordForm
 from flaskblog.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
+from flask_mail import Message
 
 
 @app.route('/')
@@ -14,6 +15,7 @@ def home():
 	page = request.args.get('page', 1, type=int)
 	posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
 	return render_template('home.html', posts=posts)
+
 
 @app.route('/about', methods = ['POST', 'GET'])
 def about():
@@ -34,6 +36,7 @@ def register():
 		return redirect(url_for('login'))
 	return render_template('register.html', title='Register', form=form)
 
+
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
 	if current_user.is_authenticated:
@@ -45,11 +48,11 @@ def login():
 			login_user(user, remember=form.remember.data)
 			next_page = request.args.get('next')
 			flash(f'Logged in as {user.username}', 'success')
-			
 			return redirect(next_page) if next_page else redirect(url_for('home'))
 		else:
 			flash(f'Login Unsuccessful. Invalid Email/Password.', 'danger')
 	return render_template('login.html', title='Login', form=form)
+
 
 @app.route('/logout', methods = ['POST', 'GET'])
 def logout():
@@ -62,12 +65,10 @@ def save_picture(form_picture):
 	_, f_ext = os.path.splitext(form_picture.filename)
 	picture_fn = random_hex + f_ext
 	picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
-
 	output_size = (125, 125)
 	i = Image.open(form_picture)
 	i.thumbnail(output_size)
 	i.save(picture_path)
-
 	return picture_fn
 
 
@@ -147,3 +148,43 @@ def user_posts(username):
 	user = User.query.filter_by(username=username).first_or_404();
 	posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
 	return render_template('user_post.html', posts=posts, user=user)
+
+
+def send_reset_email(user):
+	token = user.get_reset_token()
+	msg = Message('Password Reset Request', sender=('Dev from Flask Blog','dared8002@gmail.com'), recipients=[user.email])
+	msg.body = f'''Click the following link, to reset your password:
+{url_for('reset_token', token=token, _external=True)}
+
+If you didn't order this request, please ignore this email. No changes will be made to your account.'''
+	mail.send(msg)
+
+@app.route('/reset_password', methods=['POST', 'GET'])
+def reset_request():
+	if current_user.is_authenticated:
+		return(redirect(url_for('home')))
+	form = RequestResetForm()
+	if form.validate_on_submit():
+		user = User.query.filter_by(email=form.email.data).first()
+		send_reset_email(user)
+		flash(f'Password reset link sent. Check your Email', 'info')
+		return redirect(url_for('login'))
+	return render_template('reset_request.html', title='Reset Password', form=form)
+
+
+@app.route('/reset_password/<token>', methods=['POST', 'GET'])
+def reset_token(token):
+	if current_user.is_authenticated:
+		return(redirect(url_for('home')))
+	user = User.verify_reset_token(token)
+	if user is None:
+		flash(f'Token Invalid/Expired', 'warning')
+		return redirect(url_for('reset_request'))
+	form = ResetPasswordForm()
+	if form.validate_on_submit():
+		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+		user.password = hashed_password
+		db.session.commit()
+		flash(f'Password Updated! You May Now Login', 'success')
+		return redirect(url_for('login'))
+	return render_template('reset_token.html', title='Reset Password', form=form)
