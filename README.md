@@ -47,7 +47,7 @@ python run.py
 ## Tree Structure
 
 <details>
-<summary> Click to expand File Tree Structure</summary>
+<summary>**Click to expand File Tree Structure**</summary>
 
 ```shell
 .
