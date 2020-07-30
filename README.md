@@ -6,7 +6,7 @@ A full stack blog site made with Flask. This is the blog site made as a part of 
 ----
 
 ## Functionalities/Features added successively:
-- Responsive site design using **Bootstrap**.
+- Responsive site design using **Bootstrap**, and layout using **Jinja2 Templates**.
 - Login / Signup (**User authentication** added with **password hashing**)
 - Update **Your Login and Profile** info
 - Create, Update, Delete **Posts**
