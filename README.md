@@ -16,11 +16,11 @@ A full stack blog site made with Flask. This is the blog site made as a part of 
 
 ----
 
-##Requirements
+## Requirements
 
-Run the following commands in your cmd(in project the directory)
+**Run the following commands in your cmd(in project the directory)**
 
-Setting up virtual environment and installing dependencies.
+**Setting up virtual environment and installing dependencies.**
 
 ```shell
 virtualenv env
@@ -28,15 +28,15 @@ env\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Setup environment variables for sensitive info, for sending mails.
+**Setup environment variables for sensitive info, for sending mails.**
 
 ```shell
 set EMAIL_USER="your email"
 set EMAIL_USER="your password"
 ```
-use 'export' instead of 'set' for Linux/MacOS..
+**use 'export' instead of 'set' for Linux/MacOS..**
 
-Run the Module
+**Run the Module**
 
 ```shell
 python run.py
