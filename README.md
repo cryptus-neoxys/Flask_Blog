@@ -59,13 +59,14 @@ python run.py
     │   __init__.py
     │
     ├───main
-    │       forms.py
-    │       routes.py
-    │       __init__.py
-    │
-    │
-    │
-    │
+    │   │   forms.py
+    │   │   routes.py
+    │   │   __init__.py
+    │   │
+    │   └───__pycache__
+    │           .gitignore
+    │           routes.cpython-38.pyc
+    │           __init__.cpython-38.pyc
     │
     ├───posts
     │   │   forms.py
@@ -100,17 +101,25 @@ python run.py
     │       reset_token.html
     │       user_post.html
     │
-    └───users
-        │   forms.py
-        │   routes.py
-        │   utils.py
-        │   __init__.py
-        │
-        └───__pycache__
-                forms.cpython-38.pyc
-                routes.cpython-38.pyc
-                utils.cpython-38.pyc
-               __init__.cpython-38.pyc
+    ├───users
+    │   │   forms.py
+    │   │   routes.py
+    │   │   utils.py
+    │   │   __init__.py
+    │   │
+    │   └───__pycache__
+    │           forms.cpython-38.pyc
+    │           routes.cpython-38.pyc
+    │           utils.cpython-38.pyc
+    │           __init__.cpython-38.pyc
+    │
+    └───__pycache__
+            .gitignore
+            config.cpython-38.pyc
+            forms.cpython-38.pyc
+            models.cpython-38.pyc
+            routes.cpython-38.pyc
+            __init__.cpython-38.pyc
 ```
 
 ## Tech Stack
