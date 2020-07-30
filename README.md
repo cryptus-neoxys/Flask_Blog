@@ -46,6 +46,9 @@ python run.py
 
 ## Tree Structure
 
+<details>
+<summary> Click to expand File Tree Structure</summary>
+
 ```shell
 .
 │   README.md
@@ -121,6 +124,8 @@ python run.py
             routes.cpython-38.pyc
             __init__.cpython-38.pyc
 ```
+
+</details>
 
 ## Tech Stack
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
