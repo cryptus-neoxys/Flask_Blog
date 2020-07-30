@@ -6,8 +6,8 @@ A full stack blog site made with Flask. This is the blog site made as a part of 
 ----
 
 ## Features:
-- Responsive site design using **Bootstrap**.
-- Login / Signup (User authentication added with password hashing)
+- Responsive site design using **Bootstrap **.
+- Login / Signup (**User authentication** added with password hashing)
 - Update Your Login and Profile info
 - Create, Update, Delete Posts
 - Pagination for Posts display
@@ -25,6 +25,7 @@ A full stack blog site made with Flask. This is the blog site made as a part of 
 **Setting up virtual environment and installing dependencies.**
 
 ```shell
+pip install virtualenv
 virtualenv env
 env\Scripts\activate
 pip install -r requirements.txt
@@ -35,8 +36,11 @@ pip install -r requirements.txt
 ```shell
 set EMAIL_USER="your email"
 set EMAIL_USER="your password"
+set SECRET_KEY_FOR_FLASK_BLOG="secret key (protects against CSRF)"
+set SQLALCHEMY_DATABASE_URI_FOR_FLASK_BLOG="sql uri (eg: sqlite:///site.db)"
 ```
-**use 'export' instead of 'set' for Linux/MacOS..**
+**Don't use " "(quotes) for assigning values in cmd**
+**use 'export' instead of 'set' with ' '(quotes) for Linux/MacOS.. terminal**
 
 **Run the Module**
 
@@ -47,7 +51,7 @@ python run.py
 ## Tree Structure
 
 <details>
-<summary> <strong> Click to expand File Tree Structure </strong></summary>
+<summary> <strong> Click to expand File Tree Structure </strong> </summary>
 
 ```shell
 .
@@ -132,6 +136,6 @@ python run.py
 
 [![ForTheBadge uses-html](http://ForTheBadge.com/images/badges/uses-html.svg)](http://ForTheBadge.com)
 [![ForTheBadge uses-css](http://ForTheBadge.com/images/badges/uses-css.svg)](http://ForTheBadge.com)
-<br><br><br><br><br>
+<br><br><br><br>
 [![forthebadge](https://forthebadge.com/images/badges/uses-badges.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
