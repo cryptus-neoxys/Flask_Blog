@@ -1,4 +1,5 @@
-# Flask_Blog [![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com)
+# Flask_Blog 
+[![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com)
 ## Description
 A full stack blog site made with Flask. This is the blog site made as a part of learning Flask.
 
