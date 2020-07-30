@@ -22,25 +22,25 @@ Run the following commands in your cmd(in project the directory)
 
 Setting up virtual environment and installing dependencies.
 
-<code>
+```shell
 virtualenv env
 env\Scripts\activate
 pip install -r requirements.txt
-</code>
+```
 
 Setup environment variables for sensitive info, for sending mails.
 
-<code>
+```shell
 set EMAIL_USER="your email"
 set EMAIL_USER="your password"
-</code>
+```
 use 'export' instead of 'set' for Linux/MacOS..
 
 Run the Module
 
-<code>
+```shell
 python run.py
-</code>
+```
 
 ## Tech Stack
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
