@@ -1,0 +1,6 @@
+{
+	"EMAIL_USER" : "dared8002@gmail.com",
+	"EMAIL_PASS" : "dev.@4242",
+	"SECRET_KEY_FOR_FLASK_BLOG" : "fa30da661869fc573900b7fc3c896501",
+	"SQLALCHEMY_DATABASE_URI_FOR_FLASK_BLOG" : "sqlite:///site.db"
+}
